@@ -1,0 +1,36 @@
+extend type Query {
+    experience: Experience @all
+}
+extend type Mutation {
+    addExperience(
+        title: String
+        company: String
+        description: String
+        from: String
+        to: String
+        current: Int
+        user_id: ID
+    ): String
+    updateExperience(
+        id: ID
+        title: String
+        company: String
+        description: String
+        from: String
+        to: String
+        current: Int
+        user_id: ID
+    ): String
+    deleteExperience(id: ID!): Experience @delete
+}
+type Experience {
+    id: ID
+    title: String
+    company: String
+    from: String
+    to: String
+    current: Int
+    user_id: ID!
+    description: String
+    user: User @belongsTo
+}

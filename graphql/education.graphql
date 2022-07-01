@@ -1,0 +1,32 @@
+extend type Query {
+    education: [Education] @all
+}
+
+extend type Mutation {
+    AddEducation(
+        title: String @rules(apply: ["min:8"])
+        location: String @rules(apply: ["min:8"])
+        from: String
+        to: String
+        user_id: ID!
+    ): String!
+    UpdateEducation(
+        id: ID!
+        title: String @rules(apply: ["min:8"])
+        location: String @rules(apply: ["min:8"])
+        from: String
+        to: String
+        user_id: ID!
+    ): Education @update
+    DeleteEducation(id: ID!): Education @delete
+}
+
+type Education {
+    id: ID
+    title: String
+    location: String
+    from: String
+    to: String
+    user_id: ID!
+    user: User @belongsTo
+}

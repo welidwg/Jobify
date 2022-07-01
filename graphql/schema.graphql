@@ -1,0 +1,12 @@
+#import user.graphql
+#import post.graphql
+#import comments.graphql
+#import auth.graphql
+#import apply.graphql
+#import experience.graphql
+#import education.graphql
+#import Requirement.graphql
+#import skillPost.graphql
+
+
+

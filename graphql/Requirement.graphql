@@ -1,0 +1,14 @@
+extend type Query {
+    reqs: Requirement @all
+}
+
+extend type Mutation {
+    addRequirement(label: String, post_id: ID): Requirement @create
+    DeleteRequirement(id: ID!): Requirement @delete
+}
+
+type Requirement {
+    id: ID
+    label: String
+    post_id: ID
+}

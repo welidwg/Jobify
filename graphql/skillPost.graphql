@@ -1,0 +1,14 @@
+extend type Query {
+    skillPost: skillPost @all
+}
+
+extend type Mutation {
+    addSkillPostt(label: String, post_id: ID): skillPost @create
+    DeleteSkillPost(id: ID!): Requirement @delete
+}
+
+type skillPost {
+    id: ID
+    label: String
+    post_id: ID
+}

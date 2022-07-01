@@ -1,0 +1,29 @@
+extend type Query {
+    posts: [Post!]!
+}
+extend type Mutation {
+    createPost(
+        title: String @rules(apply: ["string"])
+        description: String @rules(apply: ["string"])
+        salary: Float
+        user_id: ID @rules(apply: ["int"])
+        type: String
+        places: Int
+    ): Post! @create
+}
+
+type Post {
+    id: ID
+    title: String
+    description: String
+    salary: Float
+    type: String
+    places: Int
+    user_id: ID
+    created_at: String
+    requirements: [Requirement]! @hasMany
+    skills: [skillPost]! @hasMany
+    company: User @belongsTo
+    comments: [Comment] @belongsTo
+    applications: [Apply] @belongsTo
+}
