@@ -10,8 +10,10 @@ import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Modals from "../../../layouts/modals";
 import Forms from "../../../layouts/Forms";
+import { useLocation } from "react-router";
 const Container = (props) => {
     Aos.init({ once: true });
+    let location = useLocation();
     const user = JSON.parse(localStorage.getItem(AUTH_USER));
     const auth_user = JSON.parse(user);
     window.addEventListener("scroll", (e) => {
@@ -117,11 +119,11 @@ const Container = (props) => {
                     <NavLink to={"/dash"} className="">
                         <i className="fal fa-home"></i> Home
                     </NavLink>
-                    <NavLink to={"/profile"} className="">
+                    <NavLink to={`/profile/${auth_user.id}`}>
                         <i className="fal fa-user"></i> Profile
                     </NavLink>{" "}
                     {auth_user.type == 1 && (
-                        <NavLink to={""} className="">
+                        <NavLink to={"/myapps"} className="">
                             <i className="fal fa-check"></i> My applications
                         </NavLink>
                     )}
@@ -129,23 +131,49 @@ const Container = (props) => {
                     <a href="#0">Contact</a>
                 </div>
                 <div class="menu__contact">
-                    <a
-                        href="#0"
-                        className="d-flex flex-column justify-content-center "
-                    >
-                        <i className="fas fa-user"></i>
-                        <span>Call</span>
-                    </a>
-                    <a href="#0">
-                        <i className="fas fa-at"></i>
+                    {auth_user.type == 1 &&
+                        location.pathname == `/profile/${auth_user.id}` && (
+                            <>
+                                <a
+                                    href="#0"
+                                    className="d-flex flex-column justify-content-center "
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#AddExpModal"
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    <span>Add Experience</span>
+                                </a>
+                                <a
+                                    href="#0"
+                                    className="d-flex flex-column justify-content-center "
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#AddExpModal"
+                                >
+                                    <i className="fas fa-plus"></i>
+                                    <span>Add Education</span>
+                                </a>
+                            </>
+                        )}
 
-                        <span>Email</span>
-                    </a>
-                    <a href="#0" className="text-center">
+                    {auth_user.type == 2 && (
+                        <>
+                            <a
+                                href="#0"
+                                className="d-flex flex-column justify-content-center "
+                                data-bs-toggle="modal"
+                                data-bs-target="#addoffer"
+                            >
+                                <i className="fas fa-plus"></i>
+                                <span>Create job offer</span>
+                            </a>
+                        </>
+                    )}
+
+                    {/* <a href="#0" className="text-center">
                         <i className="fas fa-directions"></i>
 
                         <span>Directions</span>
-                    </a>
+                    </a> */}
                 </div>
             </section>
             <div class="menu__overlay" hidden="hidden"></div>

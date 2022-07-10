@@ -12,6 +12,7 @@ import ContainerDash from "./Components/dashboard/layouts/container";
 import Jobs from "./Components/dashboard/pages/jobs";
 import Profile from "./Components/dashboard/pages/profile";
 import Contacts from "./Components/dashboard/pages/contacts";
+import MyApps from "./Components/dashboard/pages/myapps";
 import alertify from "alertifyjs";
 
 alertify.defaults.transition = "slide";
@@ -39,29 +40,13 @@ ReactDOM.render(
             {token != undefined ? (
                 <ContainerDash token={token} authed={user}>
                     <Routes>
-                        <Route
-                            path="/dash"
-                            element={
-                                user.type == 1 ? (
-                                    <Home />
-                                ) : (
-                                    <>Employer Main Page</>
-                                )
-                            }
-                        />
+                        <Route path="/dash" element={<Home />} />
                         <Route path="/Jobs" element={<Jobs />} />
                         <Route path="/profile" element={<Profile />} />
-                        <Route path="/Contacts" element={<Contacts />} />
-                        <Route
-                            path="/"
-                            element={
-                                user.type == 1 ? (
-                                    <Home />
-                                ) : (
-                                    <>Employer Main Page</>
-                                )
-                            }
-                        />
+                        <Route path="/profile/:id" element={<Profile />} />
+                        <Route path="/contacts" element={<Contacts />} />
+                        <Route path="/myapps" element={<MyApps />} />
+                        <Route path="/" element={<Home />} />
                     </Routes>
                 </ContainerDash>
             ) : (

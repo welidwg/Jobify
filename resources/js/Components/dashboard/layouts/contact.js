@@ -1,4 +1,5 @@
 const Contact = (props) => {
+    console.log(props.user.following);
     return (
         <>
             <div class="col-12 col-lg-3 col-sm-12 mb-5 m-1  text-center ">
@@ -9,9 +10,9 @@ const Contact = (props) => {
                         width="100"
                         class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm"
                     />
-                    <h5 class="mb-0"> {props.user.name}</h5>
+                    <h5 class="mb-0"> {props.user.user.name}</h5>
                     <span class="small text-uppercase text-muted">
-                        CEO - Founder
+                        {props.user.user.type == 1 ? "Candidate" : "Employer"}
                     </span>
                     <div className="d-flex pt-1">
                         <button

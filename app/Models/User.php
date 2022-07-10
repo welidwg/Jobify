@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\GraphQL\Mutations\Follow;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,12 +60,12 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-  
+
 
     public function applications(): HasMany
     {
         # code...
-        return $this->hasMany(Apply::class, "user_id");
+        return $this->HasMany(Apply::class, "user_id");
     }
 
     public function applicationsReceived(): HasMany
@@ -80,5 +82,15 @@ class User extends Authenticatable
     public function educations(): HasMany
     {
         return $this->hasMany(Education::class, "user_id");
+    }
+
+    public function followers(): HasMany
+    {
+        return $this->hasMany(Follower::class, "user_id");
+    }
+
+    public function following(): HasMany
+    {
+        return $this->hasMany(Follower::class, "followed_by");
     }
 }

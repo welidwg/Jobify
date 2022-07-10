@@ -2,7 +2,7 @@ extend type Mutation {
     add_comment(content: String!, user_id: ID!, post_id: ID!): Comment! @create
 }
 extend type Query {
-    comments: [Comments!]! @all
+    comments: [Comment!]! @all
 }
 type Comment {
     id: ID!

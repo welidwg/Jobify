@@ -4,6 +4,7 @@ import { useQuery, gql } from "@apollo/react-hooks";
 import { AUTH_USER } from "../../../constants";
 import $ from "jquery";
 import img from "../../../assets/img/search.png";
+import NotFound from "../layouts/not Found";
 
 const Home = (props) => {
     const user = JSON.parse(JSON.parse(localStorage.getItem(AUTH_USER)));
@@ -13,16 +14,26 @@ const Home = (props) => {
                 id
                 title
                 user_id
-
+                salary
+                description
                 type
+                places
                 requirements {
+                    id
                     label
                 }
                 skills {
+                    id
                     label
+                }
+                applications {
+                    applicants {
+                        name
+                    }
                 }
                 created_at
                 company {
+                    id
                     name
                 }
                 comments {
@@ -65,27 +76,16 @@ const Home = (props) => {
                 </div>
             ) : ResltPost.data.posts.length == 0 ? (
                 <>
-                    <div
-                        className="row flew-column align-items-center justify-content-center"
-                        data-aos="fade-up"
-                        data-aos-duration="700"
-                    >
-                        <span className="text-center color-3 mb-3">
-                            {" "}
-                            Sorry , there is no offers yet
-                        </span>
-                        <img src={img} className={"img-fluid w-50 image"} />
-                    </div>
+                    <NotFound text="Sorry , there is no offers yet" />
                 </>
             ) : (
                 ResltPost.data.posts.map((post, index) => {
+                    console.log(post.title);
                     return (
                         <>
                             <Post
-                                key={index}
-                                type="Job"
-                                typeNo={2}
-                                details={post}
+                                key={post.id}
+                                details={{ posts: post }}
                                 query={PostsQuery}
                             />
                         </>

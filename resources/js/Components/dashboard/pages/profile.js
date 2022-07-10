@@ -9,16 +9,52 @@ import toastr from "toastr";
 import moment from "moment";
 import alertify from "alertifyjs";
 import { AUTH_USER } from "../../../constants";
+import { useParams } from "react-router";
+import Spinner from "../layouts/spinner";
+import NotFound from "../layouts/not Found";
+import Post from "../layouts/Post";
 const Profile = (props) => {
     const user = JSON.parse(JSON.parse(localStorage.getItem(AUTH_USER)));
+    const params = useParams();
+    const idUser = parseInt(params.id);
+    const [followed, setFollowed] = useState(false);
+    const Follow = gql`
+        mutation Follow($user_id: ID, $followed_by: ID) {
+            follow(user_id: $user_id, followed_by: $followed_by)
+        }
+    `;
+
+    const [follow, RsltFollow] = useMutation(Follow, {
+        onCompleted(data) {
+            if (data.follow == "follow") {
+                setFollowed(true);
+            } else {
+                setFollowed(false);
+            }
+        },
+    });
+
     const MeqQuery = gql`
-        query {
-            me {
+        {
+            user(id: ${idUser}) {
                 id
                 name
                 email
                 type
                 about
+                followers{
+                    followed_by{
+                        id
+                        name
+                    }
+                }
+
+                 following {
+      user {
+        name
+      }
+    }
+               
                 experiences {
                     id
                     title
@@ -30,7 +66,38 @@ const Profile = (props) => {
                 }
                 birthDate
                 posts {
-                    title
+                     id
+                title
+                user_id
+                salary
+                description
+                type
+                places
+                requirements {
+                    id
+                    label
+                }
+                skills {
+                    id
+                    label
+                }
+                applications {
+                    applicants {
+                        name
+                    }
+                }
+                created_at
+                company {
+                    id
+                    name
+                }
+                comments {
+                    content
+                    created_at
+                    commentor {
+                        name
+                    }
+                }
                 }
                 comments {
                     content
@@ -38,6 +105,40 @@ const Profile = (props) => {
             }
         }
     `;
+    const [userData, setUserData] = useState({
+        email: "",
+        name: "",
+        birthday: "",
+        about: "",
+        phone: "",
+        address: "",
+        city: "",
+        state: "",
+    });
+    const { loading, error, data } = useQuery(MeqQuery, {
+        // variables: {
+        //     id: parseInt(idUser),
+        // },
+        onError(err) {
+            toastr.error(err.message);
+            console.log(err.graphQLErrors);
+        },
+        onCompleted: (data) => {
+            setUserData({
+                email: data.user.email,
+                name: data.user.name,
+                birthday: data.user.birthDate,
+                about: data.user.about,
+            });
+            if (data.user != null) {
+                data.user.followers.map((follower) => {
+                    if (follower.followed_by.id == user.id) {
+                        setFollowed(true);
+                    }
+                });
+            }
+        },
+    });
     const About = gql`
         mutation UpdateAbout($id: ID!, $about: String!) {
             updateAbout(id: $id, about: $about) {
@@ -86,30 +187,6 @@ const Profile = (props) => {
             toastr.success("Bio updated");
         },
     });
-    const [userData, setUserData] = useState({
-        email: "",
-        name: "",
-        birthday: "",
-        about: "",
-        phone: "",
-        address: "",
-        city: "",
-        state: "",
-    });
-    const { loading, error, data } = useQuery(MeqQuery, {
-        onError(err) {
-            toastr.error(err.message);
-            console.log(err.graphQLErrors);
-        },
-        onCompleted: (data) => {
-            setUserData({
-                email: data.me.email,
-                name: data.me.name,
-                birthday: data.me.birthDate,
-                about: data.me.about,
-            });
-        },
-    });
 
     const [exp, setExp] = useState({
         id: 0,
@@ -120,6 +197,7 @@ const Profile = (props) => {
         current: 0,
         description: "",
     });
+
     useEffect(() => {
         document.title = "JobiFy | Profile";
     }, []);
@@ -225,34 +303,104 @@ const Profile = (props) => {
                         />
 
                         <span className="color-3 text-center">
-                            {loading ? "Fetching .. " : data.me.name}
+                            {loading
+                                ? "Fetching .. "
+                                : error
+                                ? error.message
+                                : data.user.name}
                         </span>
                         <small className="color-3 fw-bold">
                             {loading
                                 ? "Fetching .. "
-                                : data.me.type == 1
+                                : error
+                                ? error.message
+                                : data.user.type == 1
                                 ? "Candidate"
                                 : "Employer"}
                         </small>
                     </div>
                     <div className="col-md-6 col-sm-12 d-flex justify-content-center">
-                        <button
-                            className="btn rounded-pill bg-color-6 color-2 px-2 started "
-                            data-bs-toggle="modal"
-                            href="#"
-                            data-bs-target="#editModal"
-                        >
-                            <i className="fas fa-pen"></i> Edit info
-                        </button>
+                        {loading ? (
+                            "..."
+                        ) : data.user.id == user.id ? (
+                            <button
+                                className="btn rounded-pill bg-color-6 color-2 px-2 started "
+                                data-bs-toggle="modal"
+                                href="#"
+                                data-bs-target="#editModal"
+                            >
+                                <i className="fas fa-pen"></i> Edit info
+                            </button>
+                        ) : (
+                            <button
+                                className="btn rounded-pill bg-color-6 color-2 px-2 started "
+                                onClick={(e) => {
+                                    follow({
+                                        variables: {
+                                            user_id: data.user.id,
+                                            followed_by: user.id,
+                                        },
+                                        refetchQueries: [{ query: MeqQuery }],
+                                    });
+                                }}
+                            >
+                                {" "}
+                                {followed ? (
+                                    <>
+                                        {RsltFollow.loading ? (
+                                            <Spinner
+                                                color="color-3"
+                                                size={"spinner-border-sm"}
+                                            />
+                                        ) : (
+                                            <>
+                                                {" "}
+                                                <i className="fas fa-user-minus"></i>{" "}
+                                            </>
+                                        )}
+                                        Unfollow
+                                    </>
+                                ) : (
+                                    <>
+                                        {RsltFollow.loading ? (
+                                            <Spinner
+                                                color="color-3"
+                                                size={"spinner-border-sm"}
+                                            />
+                                        ) : (
+                                            <>
+                                                {" "}
+                                                <i className="fas fa-user-plus"></i>{" "}
+                                            </>
+                                        )}
+                                        Follow
+                                    </>
+                                )}
+                            </button>
+                        )}
                     </div>
                 </div>
                 <div className="d-flex justify-content-around text-center bg-light p-2 rounded-pill border-top-1 align-items-center mb-3">
-                    <div className="col">
-                        <strong>250</strong> Followers
-                    </div>
-                    <div className="col">
-                        <strong>90</strong> Following
-                    </div>
+                    {loading ? (
+                        <Spinner color="color-6" />
+                    ) : (
+                        data.user != null && (
+                            <>
+                                <div className="col">
+                                    <strong>
+                                        {data.user.followers.length}
+                                    </strong>{" "}
+                                    Followers
+                                </div>
+                                <div className="col">
+                                    <strong>
+                                        {data.user.following.length}
+                                    </strong>{" "}
+                                    Following
+                                </div>
+                            </>
+                        )
+                    )}
                 </div>
 
                 {loading ? (
@@ -281,7 +429,7 @@ const Profile = (props) => {
                                     >
                                         <i className="fas fa-question"></i>
                                         &nbsp;
-                                        {user.type == 1
+                                        {data.user.type == 1
                                             ? "About Me"
                                             : "About Us"}
                                     </button>
@@ -301,8 +449,10 @@ const Profile = (props) => {
                                             id="aboutMeArea"
                                             placeholder="Tell people something about you"
                                             defaultValue={
-                                                !loading && data.me.about != ""
-                                                    ? data.me.about
+                                                !loading && error
+                                                    ? error.message
+                                                    : data.user.about != ""
+                                                    ? data.user.about
                                                     : ""
                                             }
                                         >
@@ -359,7 +509,7 @@ const Profile = (props) => {
                                                     }, 700);
 
                                                     if (
-                                                        data.me.about ==
+                                                        data.user.about ==
                                                         $("#aboutMeArea").val()
                                                     ) {
                                                         toastr.info(
@@ -368,7 +518,8 @@ const Profile = (props) => {
                                                     } else {
                                                         update_about({
                                                             variables: {
-                                                                id: data.me.id,
+                                                                id: data.user
+                                                                    .id,
                                                                 about: $(
                                                                     "#aboutMeArea"
                                                                 ).val(),
@@ -389,7 +540,7 @@ const Profile = (props) => {
                                 </div>
                             </div>
                         </div>
-                        {user.type == 1 && (
+                        {data.user.type == 1 && (
                             <>
                                 <div
                                     className="accordion accordion-flush"
@@ -426,9 +577,11 @@ const Profile = (props) => {
                                                 <div className="col-lg-12 m-15px-tb bg-transparent">
                                                     <div className="resume-box d-flex flex-column-reverse">
                                                         <ul>
-                                                            {data.me.experiences
+                                                            {!error &&
+                                                            data.user
+                                                                .experiences
                                                                 .length > 0
-                                                                ? data.me.experiences.map(
+                                                                ? data.user.experiences.map(
                                                                       (e) => {
                                                                           return (
                                                                               <li
@@ -836,6 +989,41 @@ const Profile = (props) => {
                     </div>
                 )}
             </div>
+
+            {loading ? (
+                <Spinner color="color-3" />
+            ) : (
+                data.user.type == 2 && (
+                    <>
+                        {" "}
+                        <div
+                            className="card shadow-lg border-0 p-1 mb-5 "
+                            style={{ borderRadius: "20px" }}
+                        >
+                            <div className="row justify-content-center align-items-center p-3">
+                                <div className="col-md-12 col-sm-12 d-flex flex-column align-items-center justify-content-center">
+                                    <span className="color-3 ">
+                                        Our Job offers
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {data.user.posts.length == 0 ? (
+                            <NotFound text="We have not posted an offer yet" />
+                        ) : (
+                            data.user.posts.map((post) => {
+                                return (
+                                    <Post
+                                        key={post.id}
+                                        details={{ posts: post }}
+                                        query={MeqQuery}
+                                    />
+                                );
+                            })
+                        )}
+                    </>
+                )
+            )}
         </div>
     );
 };

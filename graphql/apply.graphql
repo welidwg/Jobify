@@ -1,15 +1,20 @@
 extend type Query {
     applies: [Apply]! @all
+    checkApplies(post_id: ID @eq, user_id: ID @eq): Apply @find
+    MyApplications(user_id: ID): [Apply]
 }
 extend type Mutation {
     add_apply(user_id: ID!, post_id: ID!, CompanyID: ID!): Apply! @create
     MutationApply(user_id: ID!, post_id: ID!, CompanyID: ID!): String!
+    cancelApply(id: ID!): Apply @delete
 }
 
 type Apply {
+    id:ID
     user_id: ID
     post_id: ID
     CompanyID: ID
     applicants: User @belongsTo
     post: Post @belongsTo
+    created_at: String
 }

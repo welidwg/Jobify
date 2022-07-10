@@ -1,0 +1,14 @@
+type Mutation {
+    follow(user_id: ID, followed_by: ID): String!
+}
+
+extend type Query {
+    followers: Follower @all
+}
+type Follower {
+    id: ID
+    user_id: ID
+    followed_by: ID
+    user: User @belongsTo
+    followed_by: User @belongsTo
+}

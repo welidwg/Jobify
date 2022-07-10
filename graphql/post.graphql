@@ -19,11 +19,12 @@ type Post {
     salary: Float
     type: String
     places: Int
+    Statut: Int
     user_id: ID
     created_at: String
     requirements: [Requirement]! @hasMany
     skills: [skillPost]! @hasMany
     company: User @belongsTo
     comments: [Comment] @belongsTo
-    applications: [Apply] @belongsTo
+    applications: [Apply] @hasMany
 }

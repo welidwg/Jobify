@@ -64,7 +64,7 @@ const Sidenav = (props) => {
 
                     <li className="nav-item">
                         <NavLink
-                            to={"/profile"}
+                            to={`/profile/${user.id}`}
                             className={"d-flex align-items-center"}
                         >
                             <i
@@ -76,13 +76,16 @@ const Sidenav = (props) => {
                     </li>
                     {user.type == 1 && (
                         <li className="nav-item">
-                            <a href="" className="d-flex align-items-center">
+                            <NavLink
+                                to={`/myapps`}
+                                className={"d-flex align-items-center"}
+                            >
                                 <i
                                     className="fas fa-check"
                                     style={{ width: "20px" }}
                                 ></i>{" "}
-                                &nbsp;My job applications
-                            </a>
+                                &nbsp; My job applications
+                            </NavLink>
                         </li>
                     )}
                     {user.type == 2 && (
@@ -98,13 +101,16 @@ const Sidenav = (props) => {
                     )}
 
                     <li className="nav-item">
-                        <a href="" className="d-flex align-items-center">
+                        <NavLink
+                            to={`/contacts`}
+                            className={"d-flex align-items-center"}
+                        >
                             <i
                                 className="fas fa-address-book"
                                 style={{ width: "20px" }}
                             ></i>
                             &nbsp;My Contacts
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
                         <a href="" className="d-flex align-items-center">

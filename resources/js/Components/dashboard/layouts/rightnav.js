@@ -11,14 +11,13 @@ const RightNav = (props) => {
 
     return (
         <div style={{ zoom: "0.9" }} id="rightside">
-          
             <div data-aos="fade-down" data-aos-duration="700">
-                <span>
-                    {" "}
-                    <i className="fas fa-gears"></i> Tools{" "}
-                </span>
                 {user.type == 2 && (
                     <>
+                        <span>
+                            {" "}
+                            <i className="fas fa-gears"></i> Tools{" "}
+                        </span>
                         <a
                             className="card w-100 m-2 p-2 border-0 shadow-sm color-5"
                             style={{ borderRadius: "12px" }}
@@ -38,56 +37,62 @@ const RightNav = (props) => {
                         </a>
                     </>
                 )}
-                {location.pathname == "/profile" && user.type == 1 && (
-                    <div className="mb-2">
-                        <a
-                            className="card w-100 m-2 p-2 border-0 shadow-sm color-5"
-                            style={{ borderRadius: "12px" }}
-                            href="#"
-                            data-bs-toggle="modal"
-                            data-bs-target="#AddExpModal"
-                        >
-                            <div className="card-body d-flex flex-row justify-content-start align-items-center">
-                                <div className="avatar">
-                                    <i className="fas fa-plus color-6"></i>
+                {location.pathname == `/profile/${user.id}` && user.type == 1 && (
+                    <>
+                        <span>
+                            {" "}
+                            <i className="fas fa-gears"></i> Tools{" "}
+                        </span>
+                        <div className="mb-2">
+                            <a
+                                className="card w-100 m-2 p-2 border-0 shadow-sm color-5"
+                                style={{ borderRadius: "12px" }}
+                                href="#"
+                                data-bs-toggle="modal"
+                                data-bs-target="#AddExpModal"
+                            >
+                                <div className="card-body d-flex flex-row justify-content-start align-items-center">
+                                    <div className="avatar">
+                                        <i className="fas fa-plus color-6"></i>
+                                    </div>
+                                    <div className="name">
+                                        Add Experience
+                                        <br />
+                                    </div>
                                 </div>
-                                <div className="name">
-                                    Add Experience
-                                    <br />
+                            </a>
+                            <a
+                                className="card w-100 m-2 p-2 border-0 shadow-sm color-5"
+                                style={{ borderRadius: "12px" }}
+                                href="#"
+                            >
+                                <div className="card-body d-flex flex-row justify-content-start align-items-center">
+                                    <div className="avatar">
+                                        <i className="fas fa-plus color-6"></i>
+                                    </div>
+                                    <div className="name">
+                                        Add Education
+                                        <br />
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                        <a
-                            className="card w-100 m-2 p-2 border-0 shadow-sm color-5"
-                            style={{ borderRadius: "12px" }}
-                            href="#"
-                        >
-                            <div className="card-body d-flex flex-row justify-content-start align-items-center">
-                                <div className="avatar">
-                                    <i className="fas fa-plus color-6"></i>
+                            </a>
+                            <a
+                                className="card w-100 m-2 p-2 border-0 shadow-sm color-5"
+                                style={{ borderRadius: "12px" }}
+                                href="#"
+                            >
+                                <div className="card-body d-flex flex-row justify-content-start align-items-center">
+                                    <div className="avatar">
+                                        <i className="fas fa-plus color-6"></i>
+                                    </div>
+                                    <div className="name">
+                                        Add Skills
+                                        <br />
+                                    </div>
                                 </div>
-                                <div className="name">
-                                    Add Education
-                                    <br />
-                                </div>
-                            </div>
-                        </a>
-                        <a
-                            className="card w-100 m-2 p-2 border-0 shadow-sm color-5"
-                            style={{ borderRadius: "12px" }}
-                            href="#"
-                        >
-                            <div className="card-body d-flex flex-row justify-content-start align-items-center">
-                                <div className="avatar">
-                                    <i className="fas fa-plus color-6"></i>
-                                </div>
-                                <div className="name">
-                                    Add Skills
-                                    <br />
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    </>
                 )}
             </div>
             <span>Suggested for you</span>

@@ -4,7 +4,7 @@ scalar Upload
 extend type Query {
     users: [User!]! @all
     user(id: ID @eq): User @find
-    search(filter: String!): [User]!
+    search(filter: String!, type: String, id: ID): [User]!
 }
 extend type Mutation {
     createUser(
@@ -34,8 +34,10 @@ type User {
     type: Int
     about: String
     birthDate: String
-    experiences:[Experience] @hasMany
+    experiences: [Experience] @hasMany
     posts: [Post] @hasMany
+    followers: [Follower] @hasMany
+    following: [Follower] @hasMany
     comments: [Comment] @hasMany
     applications: [Apply] @hasMany
     applicationsReceived: [Apply] @hasMany
