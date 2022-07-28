@@ -8,6 +8,10 @@
 #import Requirement.graphql
 #import skillPost.graphql
 #import follower.graphql
+#import skill.graphql
+#import notification.graphql
+#import message.graphql
+#import chat.graphql
 
 
 

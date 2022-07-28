@@ -1,0 +1,26 @@
+extend type Query {
+    notifs: [Notification] @all
+    mynotif(user_id: ID): [Notification]!
+}
+extend type Mutation {
+    Add_notif(
+        user_id: ID
+        title: String
+        content: String
+        to: String
+        from: ID
+    ): Notification @create
+    delete_notif(id: ID! @eq): Notification @delete
+}
+
+type Notification {
+    id: ID
+    user_id: ID
+    to: String
+    from: Int
+    title: String
+    content: String
+    seen: Int
+    sender: User @belongsTo
+    created_at: String
+}

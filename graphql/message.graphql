@@ -1,0 +1,16 @@
+extend type Mutation {
+    send_message(sender_id: ID, chat_id: ID, message: String): Message
+}
+
+extend type Query {
+    messages: Message @all
+}
+type Message {
+    id: ID
+    content: String
+    sender_id: ID
+    chat_id: ID
+    created_at: String
+    sender: User @belongsTo
+    chat: Chat @belongsTo
+}

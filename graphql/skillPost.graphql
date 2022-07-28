@@ -4,7 +4,8 @@ extend type Query {
 
 extend type Mutation {
     addSkillPostt(label: String, post_id: ID): skillPost @create
-    DeleteSkillPost(id: ID!): Requirement @delete
+    DeleteSkillPost(id: ID!): skillPost @delete
+    updateSkill(id: ID!, label: String): skillPost @update
 }
 
 type skillPost {

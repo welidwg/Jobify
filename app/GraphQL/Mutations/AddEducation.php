@@ -17,6 +17,7 @@ final class AddEducation
         $education->location = $args["location"];
         $education->from = date("Y-m-d", strtotime($args["from"]));
         $education->to = date("Y-m-d", strtotime($args["to"]));
+        $education->current = $args["current"];
         $education->user_id = $args["user_id"];
         $education->save();
         return "done";

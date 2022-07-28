@@ -54,11 +54,11 @@ const Navs = (props) => {
                     </a>
 
                     <div
-                        className="justify-content-center col d-flex"
+                        className="justify-content-center col d-flex align-items-center"
                         id="mainNav"
                     >
                         <ul className="nav justify-content-center"></ul>
-                        <form action="" className="w-100">
+                        <form action="" className="w-100 d-none d-lg-flex">
                             <div
                                 className="input-group rounded-pill"
                                 style={{ border: " 1px solid #ccc" }}
@@ -66,7 +66,7 @@ const Navs = (props) => {
                                 <input
                                     type="text"
                                     className="form-control rounded-pill shadow-none border-0"
-                                    placeholder="Search for a job"
+                                    placeholder="Search for a jobs, persons, ..."
                                 />
                                 <button className="btn">
                                     <i className="fas fa-search"></i>
@@ -76,6 +76,15 @@ const Navs = (props) => {
                     </div>
                     <div className="col align-items-end" id="">
                         <ul className="nav justify-content-end">
+                            <li className="nav-item">
+                                <a
+                                    className="nav-link color-1 fw-bold fs-4"
+                                    data-bs-toggle="offcanvas"
+                                    href="#notifModal"
+                                >
+                                    <i className="fas fa-bell"></i>
+                                </a>
+                            </li>
                             <li
                                 className="nav-item"
                                 onClick={(e) => {

@@ -18,7 +18,7 @@ final class Posts
 
 
         // TODO implement the resolver
-        $posts = Post::get();
+        $posts = Post::where("statut", "!=", 2)->get();
 
         // if ($args["type"] == 2) {
         //     // $jobs = Post::Join("applies", "posts.user_id", "applies.CompanyID")->where("posts.type", 2)->where("applies.user_id", "<>", $args["user_id"])->orderBy('posts.created_at', 'desc')->get();

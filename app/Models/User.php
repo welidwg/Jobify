@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\GraphQL\Mutations\Follow;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,8 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+
+class User extends  Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -27,7 +30,6 @@ class User extends Authenticatable
         'birthDate',
         'about'
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -46,7 +48,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
@@ -92,5 +93,20 @@ class User extends Authenticatable
     public function following(): HasMany
     {
         return $this->hasMany(Follower::class, "followed_by");
+    }
+
+    public function skills(): HasMany
+    {
+        return $this->hasMany(Skill::class, "user_id");
+    }
+
+    public function notifs(): HasMany
+    {
+        return $this->hasMany(Notification::class, "user_id");
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id');
     }
 }

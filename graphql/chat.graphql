@@ -1,0 +1,17 @@
+extend type Mutation {
+    create_chat(user1: ID, user2: ID): Chat 
+}
+
+extend type Query {
+    chats(id: ID @eq): Chat @find
+    getMyChats(user_id:ID):[Chat]!
+    
+}
+type Chat {
+    id: ID
+    user1: ID
+    user2: ID
+    messages: [Message] @hasMany
+    owner1: User @belongsTo
+    owner2: User @belongsTo
+}

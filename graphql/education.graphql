@@ -3,12 +3,13 @@ extend type Query {
 }
 
 extend type Mutation {
-    AddEducation(
-        title: String @rules(apply: ["min:8"])
-        location: String @rules(apply: ["min:8"])
+    addEducation(
+        title: String @rules(apply: ["min:4"])
+        location: String @rules(apply: ["min:4"])
         from: String
         to: String
-        user_id: ID!
+        current: Int
+        user_id: ID
     ): String!
     UpdateEducation(
         id: ID!
@@ -27,6 +28,7 @@ type Education {
     location: String
     from: String
     to: String
-    user_id: ID!
+    user_id: ID
+    current: Int
     user: User @belongsTo
 }

@@ -50,6 +50,8 @@ const Container = (props) => {
 
     return (
         <div id="dash">
+            <CanvasModal id="notifModal" header="Notifications" user={user} />
+
             <Modals modalID="addoffer" size="modal-lg">
                 <section className="">
                     <div className="container-fluid py-3  h-100">
@@ -79,6 +81,7 @@ const Container = (props) => {
                     </div>
                 </section>
             </Modals>
+       
             <Navs token={props.token} user={auth_user} />
             <div className="container-fluid bg-color-7" id="">
                 <div className="row">
@@ -99,14 +102,14 @@ const Container = (props) => {
                     </div>
                 </div>
             </div>
-            <button class="menu__button d-flex d-lg-none" id="menu__button">
+            <button className="menu__button d-flex d-lg-none" id="menu__button">
                 <div>
                     <div></div>
                 </div>
                 Menu
             </button>
-            <section class="menu__body d-block d-lg-none" hidden="hidden">
-                <div class="menu__header">
+            <section className="menu__body d-block d-lg-none" hidden="hidden">
+                <div className="menu__header">
                     <label>
                         <i className="fas fa-search"></i>
                     </label>
@@ -115,7 +118,7 @@ const Container = (props) => {
                         <i className="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="menu__links">
+                <div className="menu__links">
                     <NavLink to={"/dash"} className="">
                         <i className="fal fa-home"></i> Home
                     </NavLink>
@@ -130,7 +133,7 @@ const Container = (props) => {
                     <a href="#0">Blog</a>
                     <a href="#0">Contact</a>
                 </div>
-                <div class="menu__contact">
+                <div className="menu__contact">
                     {auth_user.type == 1 &&
                         location.pathname == `/profile/${auth_user.id}` && (
                             <>
@@ -176,7 +179,7 @@ const Container = (props) => {
                     </a> */}
                 </div>
             </section>
-            <div class="menu__overlay" hidden="hidden"></div>
+            <div className="menu__overlay" hidden="hidden"></div>
             {/* <CanvasModal id="notif" /> */}
         </div>
     );

@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->text("description");
             $table->float("salary");
             $table->string("type");
-            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateExperiencesTable extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
             $table->string("title");
             $table->string("company");
             $table->date("from");

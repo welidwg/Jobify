@@ -1,4 +1,4 @@
-type Mutation {
+extend type Mutation {
     follow(user_id: ID, followed_by: ID): String!
 }
 

@@ -13,9 +13,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
  |
  */
 
-mix.js("resources/js/app.js", "public/js")
-    .react()
-    .sass("resources/sass/app.scss", "public/css");
+mix.js("resources/js/app.js", "public/js").react().sass("resources/sass/app.scss", "public/css").setResourceRoot("/");
 mix.options({
     legacyNodePolyfills: false,
 });

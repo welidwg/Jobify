@@ -5,6 +5,7 @@ extend type Query {
 extend type Mutation {
     addRequirement(label: String, post_id: ID): Requirement @create
     DeleteRequirement(id: ID!): Requirement @delete
+    updateRequirement(id: ID!, label: String): Requirement @update
 }
 
 type Requirement {

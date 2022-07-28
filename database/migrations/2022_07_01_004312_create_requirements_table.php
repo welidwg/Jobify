@@ -16,7 +16,7 @@ class CreateRequirementsTable extends Migration
         Schema::create('requirements', function (Blueprint $table) {
             $table->id();
             $table->string("label");
-            $table->foreignId("post_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("post_id")->references("id")->on("posts")->onDelete("cascade");
             $table->timestamps();
         });
     }

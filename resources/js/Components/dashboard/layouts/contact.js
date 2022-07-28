@@ -1,32 +1,52 @@
+import { useMutation } from "@apollo/client";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { user } from "../../../constants";
+import { createChat } from "../scripts/Mutations";
+
 const Contact = (props) => {
-    console.log(props.user.following);
+    const navigate = useNavigate();
+
+    const [create_chat, RsltCreateChat] = useMutation(createChat, {
+        onCompleted: (res) => {
+            console.log(res);
+            navigate(`/messages/${res.create_chat.id}`);
+            // window.location.href = ``;
+        },
+        onError: (err) => {
+            console.log(err);
+        },
+    });
+
     return (
         <>
-            <div class="col-12 col-lg-3 col-sm-12 mb-5 m-1  text-center ">
-                <div class="bg-white rounded shadow py-5 px-4">
+            <div class="col-12 col-lg-4 col-sm-12 mb-5 m-1  text-center ">
+                <div class="bg-white rounded shadow py-3 px-4">
                     <img
-                        src="https://bootstrapious.com/i/snippets/sn-team/teacher-4.jpg"
+                        src={`/uploads/avatars/${props.user.user.avatar}`}
                         alt=""
                         width="100"
                         class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm"
                     />
-                    <h5 class="mb-0"> {props.user.user.name}</h5>
-                    <span class="small text-uppercase text-muted">
-                        {props.user.user.type == 1 ? "Candidate" : "Employer"}
-                    </span>
-                    <div className="d-flex pt-1">
+                    <h5 class="mb-0 w-100"> {props.user.user.name}</h5>
+                    <span class="small text-uppercase text-muted">{props.user.user.type == 1 ? "Candidate" : "Employer"}</span>
+                    <div className="d-flex flex-wrap pt-1">
                         <button
                             type="button"
                             className="btn btn-outline-secondary  me-1 flex-grow-1"
+                            onClick={() => [
+                                create_chat({
+                                    variables: {
+                                        user1: user.id,
+                                        user2: props.no,
+                                    },
+                                }),
+                            ]}
                         >
                             Chat
                         </button>
-                        <button
-                            type="button"
-                            className="btn bg-orange text-light flex-grow-1"
-                        >
-                            Unfollow
-                        </button>
+                        <NavLink to={`/profile/${props.user.user.id}`} className="btn bg-color-6 text-light flex-grow-1">
+                            Profile
+                        </NavLink>
                     </div>
                 </div>
             </div>

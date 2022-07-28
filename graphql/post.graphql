@@ -7,9 +7,13 @@ extend type Mutation {
         description: String @rules(apply: ["string"])
         salary: Float
         user_id: ID @rules(apply: ["int"])
-        type: String
+        type: String @rules(apply: ["required"])
         places: Int
+        statut: Int
     ): Post! @create
+    deletePost(id: ID!): Post @delete
+    closePost(id: ID!, statut: Int): Post @update
+    updatePost(id: ID!, title: String, description: String, type: String, salary: Float, places: Int): Post @update
 }
 
 type Post {
@@ -19,7 +23,7 @@ type Post {
     salary: Float
     type: String
     places: Int
-    Statut: Int
+    statut: Int
     user_id: ID
     created_at: String
     requirements: [Requirement]! @hasMany

@@ -15,9 +15,9 @@ class CreateAppliesTable extends Migration
     {
         Schema::create('applies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
-            $table->foreignId("post_id")->constrained()->cascadeOnDelete();
-            $table->foreignId("CompanyID")->constrained()->cascadeOnDelete();
+            $table->foreignId("user_id")->references("id")->on("users")->onDelete("cascade");
+            $table->foreignId("post_id")->references("id")->on("posts")->onDelete("cascade");
+            $table->foreignId("CompanyID")->references("id")->on("users")->onDelete("cascade");
             $table->timestamps();
         });
     }

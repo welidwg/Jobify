@@ -10,10 +10,11 @@ extend type Mutation {
 }
 
 type Apply {
-    id:ID
+    id: ID
     user_id: ID
     post_id: ID
     CompanyID: ID
+    created_at: String
     applicants: User @belongsTo
     post: Post @belongsTo
     created_at: String

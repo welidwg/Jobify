@@ -1,0 +1,14 @@
+extend type Query {
+    skills: [Skill] @all
+}
+extend type Mutation {
+    Add_skill(user_id: ID, label: String): String
+    delete_skill(id: ID! @eq): Skill @delete
+}
+
+type Skill {
+    id: ID
+    label: String
+    user_id: ID
+    created_at: String
+}
